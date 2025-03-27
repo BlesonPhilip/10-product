@@ -1,3 +1,14 @@
 .head {
   margin: 20px;
 }
+
+.product-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+.product-card {
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 0 5px 5px rgb(227, 225, 225);
+}
