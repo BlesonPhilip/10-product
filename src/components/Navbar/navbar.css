@@ -1,10 +1,15 @@
 .nav {
   display: flex;
   align-items: center;
-  background-color: black;
+  /* background-color: black; */
   color: white;
   justify-content: space-between;
   height: 50px;
+  background: linear-gradient(
+    135deg,
+    #1a1a2e,
+    #16213e
+  ); /* Dark blue gradient */
 }
 
 .left {
