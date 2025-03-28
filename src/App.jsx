@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/home";
 import Product from "./pages/AboutProduct/product";
 import Navbar from "./components/Navbar/navbar";
+import Footbar from "./components/Footbar/footbar";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/product" element={<Product />} />
         <Route path="/product/edit/:id" element={<Product />} />
       </Routes>
+      <Footbar />
     </div>
   );
 };
