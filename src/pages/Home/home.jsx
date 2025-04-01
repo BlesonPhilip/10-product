@@ -7,14 +7,19 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
+
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const getProducts = async () => {
+    setLoading(true);
     try {
       const response = await axios.get("http://localhost:3000/detail");
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,30 +55,34 @@ const Home = () => {
         <h3>Your Products</h3>
         <hr />
       </div>
-      <div className="product-container">
-        {products.length === 0 ? (
-          <p className="no-products">No products available</p>
-        ) : (
-          products.map((item) => (
-            <div key={item.id} className="product-card">
-              <div className="icon-container">
-                <i
-                  onClick={() => confirmDelete(item.id)}
-                  className="fa-solid fa-trash"
-                ></i>
-                <i
-                  onClick={() => onEditProduct(item.id)}
-                  className="fa-solid fa-pen-to-square"
-                ></i>
-              </div>
-              <h3>{item.title}</h3>
-              <p>{item.price}</p>
-              <p>{item.description}</p>
-            </div>
-          ))
-        )}
-      </div>
 
+      {loading ? (
+        <p className="loading">Loading Products...</p>
+      ) : (
+        <div className="product-container">
+          {products.length === 0 ? (
+            <p className="no-products">No products available</p>
+          ) : (
+            products.map((item) => (
+              <div key={item.id} className="product-card">
+                <div className="icon-container">
+                  <i
+                    onClick={() => confirmDelete(item.id)}
+                    className="fa-solid fa-trash"
+                  ></i>
+                  <i
+                    onClick={() => onEditProduct(item.id)}
+                    className="fa-solid fa-pen-to-square"
+                  ></i>
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.price}</p>
+                <p>{item.description}</p>
+              </div>
+            ))
+          )}
+        </div>
+      )}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
