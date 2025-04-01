@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const navigate = useNavigate();
 
   const getProducts = async () => {
@@ -16,9 +18,18 @@ const Home = () => {
     }
   };
 
+  const confirmDelete = (id) => {
+    setSelectedProductId(id);
+    setShowModal(true);
+  };
+
   const onDeleteProduct = async (id) => {
     try {
-      const response = await axios.delete("http://localhost:3000/detail/" + id);
+      const response = await axios.delete(
+        "http://localhost:3000/detail/" + selectedProductId
+      );
+      setShowModal(false);
+      setSelectedProductId(null);
       getProducts();
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -47,7 +58,7 @@ const Home = () => {
             <div key={item.id} className="product-card">
               <div className="icon-container">
                 <i
-                  onClick={() => onDeleteProduct(item.id)}
+                  onClick={() => confirmDelete(item.id)}
                   className="fa-solid fa-trash"
                 ></i>
                 <i
@@ -62,6 +73,22 @@ const Home = () => {
           ))
         )}
       </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <p>Are you sure you want to delete this product?</p>
+            <div className="modal-buttons">
+              <button onClick={onDeleteProduct} className="yes-btn">
+                Yes
+              </button>
+              <button onClick={() => setShowModal(false)} className="no-btn">
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
